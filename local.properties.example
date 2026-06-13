@@ -1,0 +1,3 @@
+# Copy to local.properties and set your Android SDK path.
+# Android Studio is NOT required — command-line SDK tools are sufficient.
+sdk.dir=/home/USER/Android/Sdk

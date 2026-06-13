@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rishit\'s Dynamic Notch</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Welcome to Rishit\'s Dynamic Notch</string>
+    <string name="onboarding_welcome_body">A Dynamic Island-style overlay for your camera notch. Control music, see what\'s playing — no ads, no tracking. Tap the notch to expand.</string>
+    <string name="onboarding_overlay_title">Overlay Permission</string>
+    <string name="onboarding_overlay_body">Rishit\'s Dynamic Notch needs permission to draw over other apps so the island appears at your notch.</string>
+    <string name="onboarding_notification_title">Notification Access</string>
+    <string name="onboarding_notification_body">Grant notification access so the app can read now-playing media info and show controls.</string>
+    <string name="onboarding_position_title">Notch Position</string>
+    <string name="onboarding_position_body">Choose where the island anchors on your screen.</string>
+    <string name="position_top_center">Top Center</string>
+    <string name="position_top_left">Top Left</string>
+    <string name="position_top_right">Top Right</string>
+    <string name="btn_continue">Continue</string>
+    <string name="btn_grant_permission">Grant Permission</string>
+    <string name="btn_done">Get Started</string>
+    <string name="permission_granted">Granted</string>
+    <string name="permission_needed">Required</string>
+    <string name="paused_label">Paused</string>
+    <string name="unknown_title">Unknown Title</string>
+    <string name="unknown_artist">Unknown Artist</string>
+    <string name="service_notification_title">Rishit\'s Dynamic Notch</string>
+    <string name="service_notification_text">Island overlay active</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_running">Overlay is running. Tap your notch to expand music controls.</string>
+    <string name="credits_made_by">Built by Rishit</string>
+    <string name="about_title">About</string>
+    <string name="about_body">a Dynamic Island-style overlay for Android. No ads, no tracking.</string>
+    <string name="no_media_playing">No media playing</string>
+    <string name="calibrate_notch_title">Calibrate Notch Position</string>
+    <string name="calibrate_notch_body">Drag the box to align with your camera cutout, then tap Save.</string>
+    <string name="btn_save_notch_position">Save Notch Position</string>
+    <string name="btn_calibrate_notch">Calibrate Notch</string>
+    <string name="notch_position_saved">Notch position saved</string>
+</resources>

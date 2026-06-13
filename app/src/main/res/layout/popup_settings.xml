@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/island_background_expanded"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Position"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/popupPositionGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
+
+        <RadioButton
+            android:id="@+id/popupPosCenter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/position_top_center"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+        <RadioButton
+            android:id="@+id/popupPosLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/position_top_left"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+        <RadioButton
+            android:id="@+id/popupPosRight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/position_top_right"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+    </RadioGroup>
+
+</LinearLayout>

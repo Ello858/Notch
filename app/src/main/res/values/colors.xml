@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="island_bg">#1A1A1A</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray_text">#AAAAAA</color>
+    <color name="progress_track">#333333</color>
+    <color name="progress_fill">#FFFFFF</color>
+    <color name="onboarding_bg">#121212</color>
+    <color name="accent">#4CAF50</color>
+</resources>
