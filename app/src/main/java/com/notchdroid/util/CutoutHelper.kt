@@ -5,6 +5,7 @@ import android.graphics.Point
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowManager
+import com.notchdroid.R
 
 data class IslandPlacement(
     val x: Int,
@@ -106,5 +107,6 @@ object CutoutHelper {
         val maxWidth = dpToPx(context, 400f)
         return (screenWidth * 0.90f).toInt().coerceAtMost(maxWidth)
     }
-    fun getExpandedHeightPx(context: Context): Int = dpToPx(context, 60f)
+    fun getExpandedHeightPx(context: Context): Int =
+        context.resources.getDimensionPixelSize(R.dimen.island_expanded_height)
 }
