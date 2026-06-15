@@ -23,7 +23,8 @@ class IslandView(
     private val windowManager: WindowManager,
     private val layoutParams: WindowManager.LayoutParams,
     private val onRequestMediaState: () -> MediaSessionListener.MediaState?,
-    private val onReposition: (IslandView) -> Unit
+    private val onReposition: (IslandView) -> Unit,
+    private val onExpandStateChanged: (expanded: Boolean) -> Unit = {}
 ) : FrameLayout(context) {
 
     companion object {
@@ -44,9 +45,18 @@ class IslandView(
             binding.islandRoot,
             binding.moduleContainer,
             onLayoutChanged = { width, height ->
+                val oldWidth = layoutParams.width
+                val oldHeight = layoutParams.height
+                if (oldWidth > 0 && oldHeight > 0) {
+                    val centerX = layoutParams.x + oldWidth / 2
+                    val centerY = layoutParams.y + oldHeight / 2
+                    val screenWidth = CutoutHelper.getScreenMetrics(context).widthPixels
+                    layoutParams.x = (centerX - width / 2).coerceIn(0, (screenWidth - width).coerceAtLeast(0))
+                    layoutParams.y = (centerY - height / 2).coerceAtLeast(0)
+                }
                 layoutParams.width = width
                 layoutParams.height = height
-                Log.d(TAG, "IslandView layout changed: ${width}x${height}")
+                Log.d(TAG, "IslandView layout changed: ${width}x${height} at (${layoutParams.x}, ${layoutParams.y})")
                 try {
                     windowManager.updateViewLayout(this@IslandView, layoutParams)
                 } catch (e: Exception) {
@@ -61,10 +71,12 @@ class IslandView(
                         mediaModule.updateState(state)
                     }
                     mediaModule.onExpanded()
+                    onExpandStateChanged(true)
                 }
 
                 override fun onCollapsed() {
                     mediaModule.onCollapsed()
+                    onExpandStateChanged(false)
                 }
 
                 override fun onVisibilityChanged(visible: Boolean) {
@@ -75,14 +87,17 @@ class IslandView(
 
         mediaModule = MediaModule(binding.moduleContainer, animator) {
             animator.onUserTouch()
-            animator.resetAutoCollapse()
         }
 
         GestureHandler(context, binding.islandRoot, object : GestureHandler.Callbacks {
             override fun onSingleTap() {
                 animator.onUserTouch()
                 if (currentModule == ActivityModule.MUSIC) {
-                    animator.expand()
+                    if (animator.isExpanded()) {
+                        animator.collapse()
+                    } else {
+                        animator.expand()
+                    }
                 }
             }
 
@@ -111,6 +126,14 @@ class IslandView(
             mediaModule.updateState(state)
         }
     }
+
+    fun collapseIfExpanded() {
+        if (animator.isExpanded()) {
+            animator.collapse()
+        }
+    }
+
+    fun isExpanded(): Boolean = animator.isExpanded()
 
     fun reposition() {
         val placement = CutoutHelper.getPlacement(

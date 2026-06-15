@@ -2,12 +2,12 @@
 <resources>
     <dimen name="island_collapsed_width">126dp</dimen>
     <dimen name="island_collapsed_height">37dp</dimen>
-    <dimen name="island_expanded_width">340dp</dimen>
-    <dimen name="island_expanded_height">64dp</dimen>
+    <dimen name="island_expanded_width">320dp</dimen>
+    <dimen name="island_expanded_height">60dp</dimen>
     <dimen name="island_corner_collapsed">50dp</dimen>
-    <dimen name="island_corner_expanded">32dp</dimen>
+    <dimen name="island_corner_expanded">28dp</dimen>
     <dimen name="album_art_size">40dp</dimen>
-    <dimen name="control_button_size">20dp</dimen>
+    <dimen name="control_button_size">22dp</dimen>
     <dimen name="progress_bar_height">3dp</dimen>
     <dimen name="calibration_pill_width">126dp</dimen>
     <dimen name="calibration_pill_height">37dp</dimen>

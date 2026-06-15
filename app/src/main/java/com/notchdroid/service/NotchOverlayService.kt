@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.notchdroid.NotchDroidApp
@@ -53,6 +54,7 @@ class NotchOverlayService : Service() {
 
     private var windowManager: WindowManager? = null
     private var islandView: IslandView? = null
+    private var scrimView: View? = null
     private var layoutParams: WindowManager.LayoutParams? = null
     private var mediaSessionListener: MediaSessionListener? = null
 
@@ -79,6 +81,7 @@ class NotchOverlayService : Service() {
     override fun onDestroy() {
         mediaSessionListener?.stop()
         (application as? NotchDroidApp)?.mediaSessionListener = null
+        removeScrim()
         islandView?.destroy()
         islandView?.let { view ->
             try {
@@ -118,9 +121,61 @@ class NotchOverlayService : Service() {
             this,
             windowManager!!,
             params,
-            onRequestMediaState = { mediaSessionListener?.getCurrentState() }
-        ) { }
+            onRequestMediaState = { mediaSessionListener?.getCurrentState() },
+            onReposition = { },
+            onExpandStateChanged = { expanded ->
+                if (expanded) addScrim() else removeScrim()
+            }
+        )
         windowManager?.addView(islandView, params)
+    }
+
+    private fun addScrim() {
+        if (scrimView != null) return
+        val wm = windowManager ?: return
+        val view = View(this)
+        view.setOnClickListener { islandView?.collapseIfExpanded() }
+        view.isClickable = true
+        view.isFocusable = false
+
+        val scrimParams = WindowManager.LayoutParams(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+            } else {
+                @Suppress("DEPRECATION")
+                WindowManager.LayoutParams.TYPE_PHONE
+            },
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS or
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+            PixelFormat.TRANSLUCENT
+        )
+        scrimParams.gravity = Gravity.TOP or Gravity.START
+
+        try {
+            wm.addView(view, scrimParams)
+            scrimView = view
+            islandView?.let { iv ->
+                try {
+                    wm.removeView(iv)
+                    wm.addView(iv, layoutParams)
+                } catch (_: Exception) { }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to add scrim view", e)
+        }
+    }
+
+    private fun removeScrim() {
+        val wm = windowManager ?: return
+        scrimView?.let { view ->
+            try {
+                wm.removeView(view)
+            } catch (_: Exception) { }
+        }
+        scrimView = null
     }
 
     private fun setupMediaListener() {

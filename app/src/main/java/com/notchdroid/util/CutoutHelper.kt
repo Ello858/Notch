@@ -101,6 +101,10 @@ object CutoutHelper {
         return (dp * context.resources.displayMetrics.density + 0.5f).toInt()
     }
 
-    fun getExpandedWidthPx(context: Context): Int = dpToPx(context, 340f)
-    fun getExpandedHeightPx(context: Context): Int = dpToPx(context, 64f)
+    fun getExpandedWidthPx(context: Context): Int {
+        val screenWidth = getScreenMetrics(context).widthPixels
+        val maxWidth = dpToPx(context, 400f)
+        return (screenWidth * 0.90f).toInt().coerceAtMost(maxWidth)
+    }
+    fun getExpandedHeightPx(context: Context): Int = dpToPx(context, 60f)
 }

@@ -27,7 +27,6 @@ class IslandAnimator(
 
     companion object {
         private const val EXPAND_DURATION = 300L
-        private const val AUTO_COLLAPSE_MS = 4000L
         private const val PAUSE_COLLAPSE_MS = 2000L
     }
 
@@ -35,7 +34,6 @@ class IslandAnimator(
     private var isExpanded = false
     private var userTouched = false
 
-    private val autoCollapseRunnable = Runnable { collapse() }
     private val pauseCollapseRunnable = Runnable { collapse() }
 
     private val collapsedWidth = CutoutHelper.dpToPx(context, 126f)
@@ -45,7 +43,6 @@ class IslandAnimator(
 
     fun expand() {
         if (isExpanded) {
-            resetAutoCollapse()
             return
         }
         isExpanded = true
@@ -73,13 +70,11 @@ class IslandAnimator(
 
         setVisible(true)
         callbacks.onExpanded()
-        resetAutoCollapse()
     }
 
     fun collapse() {
         if (!isExpanded) return
         isExpanded = false
-        handler.removeCallbacks(autoCollapseRunnable)
         handler.removeCallbacks(pauseCollapseRunnable)
 
         val transition = ChangeBounds()
@@ -104,12 +99,6 @@ class IslandAnimator(
     fun onUserTouch() {
         userTouched = true
         setVisible(true)
-        if (isExpanded) resetAutoCollapse()
-    }
-
-    fun resetAutoCollapse() {
-        handler.removeCallbacks(autoCollapseRunnable)
-        handler.postDelayed(autoCollapseRunnable, AUTO_COLLAPSE_MS)
     }
 
     fun schedulePauseCollapse() {
@@ -130,7 +119,6 @@ class IslandAnimator(
     }
 
     fun destroy() {
-        handler.removeCallbacks(autoCollapseRunnable)
         handler.removeCallbacks(pauseCollapseRunnable)
     }
 }
