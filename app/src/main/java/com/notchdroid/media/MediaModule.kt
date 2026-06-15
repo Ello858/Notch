@@ -42,6 +42,8 @@ class MediaModule(
     private var btnPlayPause: ImageButton? = null
     private var btnNext: ImageButton? = null
     private var progressBar: ProgressBar? = null
+    private var currentTime: TextView? = null
+    private var totalTime: TextView? = null
     private var pausedLabel: TextView? = null
     private var noMediaLabel: TextView? = null
     private var textLayout: View? = null
@@ -69,6 +71,8 @@ class MediaModule(
         btnPlayPause = musicView?.findViewById(R.id.btnPlayPause)
         btnNext = musicView?.findViewById(R.id.btnNext)
         progressBar = musicView?.findViewById(R.id.progressBar)
+        currentTime = musicView?.findViewById(R.id.currentTime)
+        totalTime = musicView?.findViewById(R.id.totalTime)
         pausedLabel = musicView?.findViewById(R.id.pausedLabel)
         noMediaLabel = musicView?.findViewById(R.id.noMediaLabel)
         textLayout = musicView?.findViewById(R.id.textLayout)
@@ -203,7 +207,17 @@ class MediaModule(
         if (duration > 0) {
             val progress = ((position.toFloat() / duration) * 1000).toInt().coerceIn(0, 1000)
             progressBar?.progress = progress
+            currentTime?.text = formatTime(position)
+            totalTime?.text = formatTime(duration)
         }
+    }
+
+
+    private fun formatTime(ms: Long): String {
+        val totalSeconds = (ms / 1000).coerceAtLeast(0)
+        val minutes = totalSeconds / 60
+        val seconds = totalSeconds % 60
+        return "%d:%02d".format(minutes, seconds)
     }
 
     fun destroy() {
